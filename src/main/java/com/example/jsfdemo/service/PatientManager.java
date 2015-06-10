@@ -22,6 +22,7 @@ public class PatientManager {
 		newPatient.setPhoneNumber(patient.getPhoneNumber());
 		newPatient.setWeight(patient.getWeight());
 		newPatient.setHeight(patient.getHeight());
+		newPatient.setDateOfRegister(patient.getDateOfRegister());
 		
 		db.add(newPatient);
 	}

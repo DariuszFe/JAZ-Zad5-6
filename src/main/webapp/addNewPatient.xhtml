@@ -3,58 +3,98 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	template="/templates/default.xhtml">
+	template="/templates/default.xhtml"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
 
 	<ui:define name="content">
-		<h:form id="patientform">
-			<f:event type="postValidate" listener="#{patientBean.validatePinDob}" />
-			<h:panelGrid columns="2">
-				<h:outputText value="#{msg.patientFirstNameLabel}" />
-				<h:inputText id="firstName" value="#{patientBean.patient.firstName}"
-					required="#{true}" />
+		<br />
 
-				<h:outputText value="#{msg.patientLastNameLabel}" />
-				<h:inputText id="lastName" value="#{patientBean.patient.lastName}"
-					required="#{true}" />
 
-				<h:outputText value="#{msg.patientPinLabel}" />
-				<h:inputText id="pin" value="#{patientBean.patient.pin}"
-					validator="#{patientBean.uniquePin}" required="#{true}">
-					<f:validator validatorId="pinValidator" />
-				</h:inputText>
+		<rich:panel header="#{msg.addPatientFormInformation}" background-color="yellow">
+			<h:form id="patientform">
 
-				<h:outputText value="#{msg.patientDateOfBirthLabel}" />
-				<h:inputText id="dob" value="#{patientBean.patient.dateOfBirth}">
-					<f:convertDateTime type="date" pattern="dd.MM.yyyy" />
-				</h:inputText>
+				<f:event type="postValidate"
+					listener="#{patientBean.validatePinDob}" />
+				<h:panelGrid columns="3">
+					<h:outputText value="#{msg.patientFirstNameLabel}" />
+					<h:inputText id="firstName"
+						value="#{patientBean.patient.firstName}" label="firstName">
+						<f:validateRequired />
+						<rich:validator />
+					</h:inputText>
+					<rich:message for="firstName" ajaxRendered="true" />
 
-				<h:outputText value="#{msg.patientAddressLabel}" />
-				<h:inputText id="address" value="#{patientBean.patient.address}" />
+					<h:outputText value="#{msg.patientLastNameLabel}" />
+					<h:inputText id="lastName" value="#{patientBean.patient.lastName}"
+						label="lastName">
+						<f:validateRequired />
+						<rich:validator />
+					</h:inputText>
+					<rich:message for="lastName" ajaxRendered="true" />
 
-				<h:outputText value="#{msg.patientPhoneNumberLabel}" />
-				<h:inputText id="phoneNumber"
-					value="#{patientBean.patient.phoneNumber}" />
+					<h:outputText value="#{msg.patientPinLabel}" />
+					<h:inputText id="pin" value="#{patientBean.patient.pin}"
+						validator="#{patientBean.uniquePin}" label="pin">
+						<f:validator validatorId="pinValidator" />
+						<f:validateRequired />
+						<rich:validator />
+					</h:inputText>
+					<rich:message for="pin" ajaxRendered="true" />
 
-				<h:outputText value="#{msg.patientWeightLabel}" />
-				<h:inputText id="weight" value="#{patientBean.patient.weight}">
-					<f:validateDoubleRange minimum="20.5" maximum="150.5" />
-				</h:inputText>
+					<h:outputText value="#{msg.patientDateOfBirthLabel}" />
+					<rich:calendar id="dob" label="dob"
+						value="#{patientBean.patient.dateOfBirth}"
+						datePattern="dd.MM.yyyy">
+						<f:validateRequired />
+						<rich:validator />
+					</rich:calendar>
+					<rich:message for="dob" ajaxRendered="true" />
 
-				<h:outputText value="#{msg.patientHeightLabel}" />
-				<h:inputText id="height" value="#{patientBean.patient.height}">
-					<f:validateDoubleRange minimum="40" maximum="250" />
-				</h:inputText>
-			</h:panelGrid>
+					<h:outputText value="#{msg.patientAddressLabel}" />
+					<h:inputText id="address" value="#{patientBean.patient.address}"
+						label="address">
+						<f:validateRequired />
+						<rich:validator />
+					</h:inputText>
+					<rich:message for="address" ajaxRendered="true" />
 
-			<h:commandButton value="#{msg.patientFormOKButton}"
-				action="#{patientBean.addPatient}" />
+					<h:outputText value="#{msg.patientPhoneNumberLabel}" />
+					<h:inputText id="phoneNumber"
+						value="#{patientBean.patient.phoneNumber}" label="phoneNumber">
+						<f:validator validatorId="phoneValidator" />
+						<rich:validator />
+					</h:inputText>
+					<rich:message for="phoneNumber" ajaxRendered="true" />
 
-			<h:panelGrid>
-				<h:messages id="messages" showDetail="#{true}"
-					showSummary="#{false}" />
-			</h:panelGrid>
+					<h:outputText value="#{msg.patientWeightLabel}" />
+					<rich:inputNumberSpinner id="weight" label="weight"
+						value="#{patientBean.patient.weight}" maxValue="150"
+						inputSize="20">
+						<f:converter converterId="javax.faces.Double" />
+					</rich:inputNumberSpinner>
+					<rich:message for="weight" ajaxRendered="true" />
 
-		</h:form>
+					<h:outputText value="#{msg.patientHeightLabel}" />
+					<rich:inputNumberSpinner id="height" label="height"
+						value="#{patientBean.patient.height}" maxValue="220"
+						inputSize="20" />
+					<rich:message for="height" ajaxRendered="true" />
+
+				</h:panelGrid>
+
+				<a4j:commandButton value="#{msg.patientFormOKButton}"
+					action="#{patientBean.addPatient}" />
+
+				<h:panelGrid>
+					<rich:messages for="patientform" style="color:black" id="messages"
+						showDetail="#{false}" showSummary="#{true}" />
+				</h:panelGrid>
+			</h:form>
+		</rich:panel>
+
+
+
 	</ui:define>
 
 </ui:composition>
